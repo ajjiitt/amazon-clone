@@ -1,16 +1,34 @@
-import React ,{useState} from "react";
+import React, { useState } from "react";
 import "./css/login.css";
-import { Link } from "react-router-dom";
+import { auth } from "./firebase.js";
+import { Link, useHistory } from "react-router-dom";
 function Login() {
-const [email,setEmail]=useState('');
-const [password,setPassword]=useState('');
-
-const signIn = e =>{
-    e.preventDefault()
-}
-const register= e =>{
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const history = useHistory();
+  const signIn = (e) => {
     e.preventDefault();
-}
+    e.preventDefault();
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(
+        auth =>{
+          history.push('/')
+        }
+      )
+      .catch((error) => alert(error.message));
+  };
+  const register = (e) => {
+    e.preventDefault();
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(
+        auth =>{
+          history.push('/')
+        }
+      )
+      .catch((error) => alert(error.message));
+  };
   return (
     <div className="login">
       <Link to="/">
@@ -24,16 +42,32 @@ const register= e =>{
         <h1>Sign-in</h1>
         <form className="login__form">
           <h5>Email</h5>
-          <input type="text" value={email} onChange={e=>{setEmail(e.target.value)}} />
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
           <h5>Password</h5>
-          <input type="password" value={password} onChange={e=>{setPassword(e.target.value)}}/>
-          <button className="login__signInButton" onClick={signIn}>Sign-in</button>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <button className="login__signInButton" onClick={signIn}>
+            Sign-in
+          </button>
         </form>
         <p>
-          By continuing, you agree to Amazon's Conditions of Use and Privacy
-          Notice.
+          By continuing, you agree to Amazon's Clone practice Conditions of Use
+          and Privacy Notice.
         </p>
-        <button onclick ={register}className="login__registerButton">Create New Account</button>
+        <button onClick={register} className="login__registerButton">
+          Create New Amazon Account
+        </button>
       </div>
     </div>
   );

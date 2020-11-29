@@ -25,3 +25,7 @@
   /* flex: flex-end; */
   max-width: 25%;
 }
+h3{
+  margin-left: 20px;
+  font-family: 'Courier New', Courier, monospace;
+}
